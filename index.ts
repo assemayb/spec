@@ -4,7 +4,9 @@ import morgan from 'morgan'
 
 
 import { dbConfig } from "./config/database"
+import { type } from "os"
 const app = express()
+
 
 // Middlewares
 app.use(cors())
@@ -13,15 +15,14 @@ app.use(express.urlencoded({ extended: false }))
 app.use(morgan("dev"))
 
 
-// database 
+// Database Configuration
 dbConfig.authenticate()
-    .then(() => console.log("database connected successfulyy"))
-    .then(() => dbConfig.sync( /* { force: true } */ ))
+    .then(() => console.log("Database connection is successful"))
+    .then(() => dbConfig.sync( /* { force: true } */  ))
     .catch((err: Error) => console.log(err));
 
 
-// Routes 
-app.use("/test", require("./routes/test"))
+// API Routes 
 app.use("/users", require("./routes/User"))
 
 // Port
