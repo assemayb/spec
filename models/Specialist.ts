@@ -1,7 +1,6 @@
 import { DataTypes, ModelDefined, Optional } from "sequelize";
 import { dbConfig } from "../config/database";
 
-import Reply from "./Reply"
 
 interface SpecialistAttributes {
     id: Number;
@@ -9,7 +8,7 @@ interface SpecialistAttributes {
     password: String;
     specialization: String;
     fullName: String;
-    email: string;
+    email: String;
     age: Number;
 }
 
@@ -57,8 +56,5 @@ const Specialist: ModelDefined<
     }
 );
 
-Specialist.hasMany(Reply, {
-    foreignKey: "specialistReply"
-})
 
 export default Specialist;

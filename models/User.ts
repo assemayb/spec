@@ -1,20 +1,22 @@
 import { DataTypes, Op, ModelDefined, Model, Association, Optional } from 'sequelize'
 import { dbConfig } from '../config/database'
 
+import Thread from "./Thread"
+
 type PasswordType = String | Number
 
-interface UserAttributes {
+export interface UserAttributes {
     id: Number
     username: String
     password: PasswordType
     email: String
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "email" | "id"> { }
+export interface UserCreationAttributes extends Optional<UserAttributes, "email" | "id"> { }
 
 const User: ModelDefined<UserAttributes, UserCreationAttributes> = dbConfig.define("User", {
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER(),
         autoIncrement: true,
         primaryKey: true
     },
@@ -31,6 +33,11 @@ const User: ModelDefined<UserAttributes, UserCreationAttributes> = dbConfig.defi
     }
 }, {
     tableName: "users"
+})
+
+
+User.hasMany(Thread, {
+    foreignKey: "threadCreator"
 })
 
 export default User;

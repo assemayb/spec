@@ -1,4 +1,5 @@
 import { DataTypes, ModelDefined, Optional } from "sequelize"
+
 import Specialist from './Specialist'
 import Thread from "./Thread"
 
@@ -7,7 +8,9 @@ import { dbConfig } from "../config/database"
 interface ReplyAttributes {
     id: Number
     text: String
-    upvotes: Number
+    upvotes: Number,
+    replySpecialist: String;
+    replyThread: String
 }
 
 const Reply: ModelDefined<ReplyAttributes, {}> = dbConfig.define("reply", {
@@ -24,14 +27,29 @@ const Reply: ModelDefined<ReplyAttributes, {}> = dbConfig.define("reply", {
         type: DataTypes.INTEGER(),
         allowNull: false,
         defaultValue: 0
+    },
+    replyThread: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+    },
+    replySpecialist: {
+        type: DataTypes.STRING(100),
+        allowNull: false
     }
 }, {
     tableName: 'replies'
 })
 
-Reply.belongsTo(Thread,
-    {
-        foreignKey: "replyThread"
-    })
+// M : 1  relation with Thread 
+
+// Reply.belongsTo(Thread, {
+//     foreignKey: "replyThread"
+// })
+
+
+// 1 : M  relation with Specialist 
+Specialist.hasMany(Reply, {
+    foreignKey: "replySpecialist",
+})
 
 export default Reply;

@@ -1,12 +1,13 @@
 import { DataTypes, ModelDefined } from "sequelize";
 import { dbConfig } from "../config/database"
 
-import User from "./User"
+import Reply from './Reply'
 
-interface ThreadAttributes {
+ 
+export interface ThreadAttributes {
     id: Number
     question: String
-    specialization: String
+    specialization: String 
 }
 
 const Thread: ModelDefined<ThreadAttributes, {}> = dbConfig.define("thread", {
@@ -27,8 +28,8 @@ const Thread: ModelDefined<ThreadAttributes, {}> = dbConfig.define("thread", {
     tableName: "threads"
 })
 
-Thread.belongsTo(User , {
-    foreignKey: "threadCreator", 
-})
+Thread.hasMany(Reply, { 
+    foreignKey: "replyThread"
+ })
 
 export default Thread;
